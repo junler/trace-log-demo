@@ -1,0 +1,29 @@
+# Log files
+logs/
+*.log
+
+# Go build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Output of go coverage tool
+*.out
+
+# Go workspace file
+go.work
+
+# Go sum files
+go.sum
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
