@@ -8,7 +8,7 @@
 初始代码使用的是OpenTelemetry-go的Example
 https://pkg.go.dev/go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin
 
-## OpenTelemetry（简称
+## OpenTelemetry
 
 OpenTelemetry（简称 OTel）就是现代微服务里做 可观测性（Observability） 的标准方案。
 OTel 不是一个单独软件，它是一个生态：
@@ -26,6 +26,7 @@ https://github.com/sirupsen/logrus
 
 日志想要 JSON 格式 还是普通文本？
 
+```
 Gin 中间件每次请求自动生成 trace：
 
 r.Use(func(c *gin.Context) {
@@ -53,6 +54,7 @@ func TraceFields(ctx context.Context) (string, string) {
 
 	return sc.TraceID().String(), sc.SpanID().String()
 }
+```
 
 ## 功能特性
 
