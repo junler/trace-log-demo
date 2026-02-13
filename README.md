@@ -10,19 +10,21 @@ https://pkg.go.dev/go.opentelemetry.io/contrib/instrumentation/github.com/gin-go
 
 ## OpenTelemetry
 
-OpenTelemetry（简称 OTel）就是现代微服务里做 可观测性（Observability） 的标准方案。
-OTel 不是一个单独软件，它是一个生态：
-OpenTelemetry 是一套统一的规范 + SDK + 工具，用来采集和传递 Trace、Metrics、Logs，并把它们导出到 Jaeger、Prometheus、Grafana、Tempo、Elastic 等系统。
+- OpenTelemetry（简称 OTel）就是现代微服务里做 可观测性（Observability） 的标准方案。OTel 不是一个单独软件，它是一个生态：
 
-Trace（链路追踪）
+- OpenTelemetry 是一套统一的规范 + SDK + 工具，用来采集和传递 Trace、Metrics、Logs，并把它们导出到 Jaeger、Prometheus、Grafana、Tempo、Elastic 等系统。
+
+- Trace（链路追踪）
 一个请求从 API Gateway → Service A → DB → Service B 全过程
 关键概念：TraceId、SpanId
 
 OpenTelemetry 不负责写文件日志，Zap 写文件 + OpenTelemetry 注入 TraceId。
 
-日志库：zap性能高一些，logrus说是好看一些
-https://github.com/uber-go/zap
-https://github.com/sirupsen/logrus
+### 日志库：zap性能高一些，logrus说是好看一些
+
+- https://github.com/uber-go/zap 需要配置成json格式输出
+- https://github.com/sirupsen/logrus
+- https://github.com/rs/zerolog  默认结构化日志（JSON）
 
 日志想要 JSON 格式 还是普通文本？
 
