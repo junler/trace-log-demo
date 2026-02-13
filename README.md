@@ -5,6 +5,55 @@
 - **service-a**: 运行在 `localhost:8080`，提供 `/users/:id` 接口
 - **service-b**: 运行在 `localhost:8081`，提供 `/info` 接口
 
+初始代码使用的是OpenTelemetry-go的Example
+https://pkg.go.dev/go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin
+
+## OpenTelemetry（简称
+
+OpenTelemetry（简称 OTel）就是现代微服务里做 可观测性（Observability） 的标准方案。
+OTel 不是一个单独软件，它是一个生态：
+OpenTelemetry 是一套统一的规范 + SDK + 工具，用来采集和传递 Trace、Metrics、Logs，并把它们导出到 Jaeger、Prometheus、Grafana、Tempo、Elastic 等系统。
+
+Trace（链路追踪）
+一个请求从 API Gateway → Service A → DB → Service B 全过程
+关键概念：TraceId、SpanId
+
+OpenTelemetry 不负责写文件日志，Zap 写文件 + OpenTelemetry 注入 TraceId。
+
+日志库：zap性能高一些，logrus说是好看一些
+https://github.com/uber-go/zap
+https://github.com/sirupsen/logrus
+
+日志想要 JSON 格式 还是普通文本？
+
+Gin 中间件每次请求自动生成 trace：
+
+r.Use(func(c *gin.Context) {
+	ctx := c.Request.Context()
+
+	traceID, _ := TraceFields(ctx)
+
+	c.Set("trace_id", traceID)
+	c.Next()
+})
+
+import (
+	"context"
+
+	"go.opentelemetry.io/otel/trace"
+)
+
+func TraceFields(ctx context.Context) (string, string) {
+	span := trace.SpanFromContext(ctx)
+	sc := span.SpanContext()
+
+	if !sc.IsValid() {
+		return "", ""
+	}
+
+	return sc.TraceID().String(), sc.SpanID().String()
+}
+
 ## 功能特性
 
 1. **统一日志管理（Zap）**: 使用 uber-go/zap 作为结构化日志库
